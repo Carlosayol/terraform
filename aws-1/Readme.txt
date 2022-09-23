@@ -1,0 +1,1 @@
+Use terraform *(command) -var-file dev.tfvars to consume the variable file
