@@ -19,7 +19,8 @@ resource "aws_security_group" "ssh_connection" {
     Name = "allow_tls"
   }
 }
-resource "aws_instance" "web" {
+
+resource "aws_instance" "test-ec2" {
   ami             = var.ami_id
   instance_type   = var.instance_type
   tags            = var.tags
