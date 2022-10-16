@@ -13,7 +13,16 @@ resource "aws_security_group" "ssh_connection" {
       protocol    = ingress.value.protocol
       cidr_blocks = ingress.value.cidr_blocks
     }
+  }
 
+  dynamic "egress" {
+    for_each = var.egress_rules
+    content {
+      from_port   = egress.value.from_port
+      to_port     = egress.value.to_port
+      protocol    = egress.value.protocol
+      cidr_blocks = egress.value.cidr_blocks
+    }
   }
 
   tags = {
@@ -26,4 +35,12 @@ resource "aws_instance" "web" {
   instance_type   = var.instance_type
   tags            = var.tags
   security_groups = ["${aws_security_group.ssh_connection.name}"]
+  provisioner "remote-exec" {
+    connection {
+      type = "ssh"
+      user = "ec2-user"
+      private_key = "${file(~/.ssh/packer-key)}"
+      host = self.public_id
+    }
+  }
 }

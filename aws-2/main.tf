@@ -13,7 +13,6 @@ resource "aws_security_group" "ssh_connection" {
       protocol    = ingress.value.protocol
       cidr_blocks = ingress.value.cidr_blocks
     }
-
   }
   tags = {
     Name = "allow_tls"
